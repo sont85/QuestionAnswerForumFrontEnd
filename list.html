@@ -1,0 +1,20 @@
+<div class="well">
+  <h4>Ask the Nerds</h4>
+  <p>This Q&amp;A site is dedicated to questions about programming</p>
+</div>
+
+<div class="boxes">
+  <div class="media" ng-repeat="question in questions">
+    <div class="media-left">
+      <a href="#">
+        <img class="media-object" ng-src="{{question.gravatarUrl}}">
+      </a>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">{{question.email}} asked:</h4>
+      <div class="time hidden-xs">{{ question.createdAt | dateInWords }}</div>
+      <div>{{question.body}}</div>
+      <div class="hidden-xs"><a ui-sref="question({slug: question.slug})" class="btn btn-primary btn-xs">View Answers</a></div>
+    </div>
+  </div>
+</div>

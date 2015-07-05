@@ -1,0 +1,58 @@
+<div class="media">
+  <div class="media-left">
+    <a href="#">
+      <img class="media-object" ng-src="{{question.gravatarUrl}}">
+    </a>
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading">{{question.email}} asked:</h4>
+    <div class="time hidden-xs">{{ question.createdAt | dateInWords }}</div>
+    <div>{{question.body}}</div>
+  </div>
+</div>
+
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+  Write Answer
+</button>
+
+<div class="collapse" id="collapseExample">
+  <div class="well">
+    <form class="form-horizontal" accept-charset="UTF-8" method="post" ng-submit="addAnswer()">
+      <div class="form-group">
+        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+        <div class="col-sm-10">
+          <input type="email" ng-model="answer.email" value="" class="form-control" id="inputEmail" placeholder="Email" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputQuestion" class="col-sm-2 control-label">Answer</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" ng-model="answer.body" id="inputQuestion" placeholder="Your answer here" required></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-10 col-sm-offset-2">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<br>
+<br>
+
+<div class="boxes">
+  <div class="media" ng-repeat="answer in answers">
+    <div class="media-left">
+      <a href="#">
+        <img class="media-object" ng-src="....">
+      </a>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">{{answer.email}} answered:</h4>
+      <div class="time hidden-xs">time....</div>
+      <div>{{answer.body}}</div>
+    </div>
+  </div>
+</div>
