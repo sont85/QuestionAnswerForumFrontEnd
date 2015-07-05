@@ -1,7 +1,7 @@
 
 angular.module('heimdall', ['ui.router'])
 .constant("ATN", {
-  "API_URL": "http://localhost:3000"
+  "API_URL": "https://infinite-forest-1836.herokuapp.com"
 })
 .config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("/");
