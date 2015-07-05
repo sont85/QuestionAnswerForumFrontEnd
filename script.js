@@ -125,7 +125,7 @@ angular.module('heimdall', ['ui.router'])
     return moment(input).utc().fromNow();
   };
 })
-.controller('NewQuestionCtrl', function($scope, Question, $state){
+.controller('NewQuestionCtrl', function($scope, Question, $state, $rootScope){
   $scope.askQuestion = function() {
     $scope.question.email = $rootScope.activeUser;
     Question.addQuestion($scope.question)
