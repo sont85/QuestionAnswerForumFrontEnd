@@ -127,6 +127,7 @@ angular.module('heimdall', ['ui.router'])
 })
 .controller('NewQuestionCtrl', function($scope, Question, $state){
   $scope.askQuestion = function() {
+    $scope.question.email = $rootScope.activeUser;
     Question.addQuestion($scope.question)
       .success(function(data) {
         $scope.question = {};
@@ -137,7 +138,7 @@ angular.module('heimdall', ['ui.router'])
       });
   };
 })
-.controller('QuestionCtrl', function($scope, Question, Answer, $state, AuthService){
+.controller('QuestionCtrl', function($scope,$rootScope, Question, Answer, $state, AuthService){
   $scope.slug = $state.params.slug;
 
   $scope.answers = Answer.getAll($scope.slug);
@@ -151,11 +152,13 @@ angular.module('heimdall', ['ui.router'])
     });
 
   $scope.addAnswer = function() {
+    $scope.answer.email = $rootScope.activeUser;
     Answer.addAnswer($scope.slug, $scope.answer);
     $scope.answer = {};
   };
 
   $scope.submitEditQuestion = function() {
+    $scope.answer.email = $rootScope.activeUser;
     Question.editQuestion($state.params.slug, $scope.answer)
       .success(function(data){
         $state.go("home");
@@ -167,7 +170,7 @@ angular.module('heimdall', ['ui.router'])
   $scope.deleteQuestion = function() {
     Question.deleteQuestion($state.params.slug)
       .success(function(data){
-        $state.go("home")
+        $state.go("home");
         console.log(data);
       }).catch(function (err) {
         console.error(err);

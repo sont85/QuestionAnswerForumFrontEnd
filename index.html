@@ -31,7 +31,7 @@
               <li>
                 <div class="navbar-text"></div>
               </li>
-              <li><form><a ui-sref="new" class="btn btn-primary navbar-btn btn-sm">Ask Question</a></form></li>
+              <li ng-if="activeUser"><form><a ui-sref="new" class="btn btn-primary navbar-btn btn-sm">Ask Question</a></form></li>
             </ul>
           </div>
         </div>
