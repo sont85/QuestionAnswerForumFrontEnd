@@ -28,10 +28,15 @@ angular.module('heimdall', ['ui.router'])
     .state('question', {
       url: "/:slug",
       templateUrl: "question.html",
-      controller: "QuestionCtrl"
-    });
+      controller: "QuestionCtrl",
+    })
 })
-.service("AuthService", function($state){
+.directive("inputForm", function(){
+  return {
+    templateUrl: "form.html"
+  };
+})
+.service("AuthService", function($state, $rootScope){
   var ref = new Firebase("https://answer.firebaseio.com/");
   this.createUser = function(newUserEmail, newUserPassword) {
     ref.createUser({
@@ -52,6 +57,7 @@ angular.module('heimdall', ['ui.router'])
     }, function(error, userData) {
       if(error){
         console.error("Error logging in:", error);
+        $rootScope.activeUser = userEmail;
       } else {
         console.log(userData);
         $state.go("home");
@@ -60,17 +66,25 @@ angular.module('heimdall', ['ui.router'])
   };
   this.logOut = function() {
     ref.unauth();
+    $state.go("login");
     console.log("log out");
   };
   this.onAuth = function() {
     ref.onAuth(function(authData){
       if (authData) {
         console.log("Authenticated with uid:", authData.uid);
+        console.log(authData.password.email);
+        $rootScope.activeUser = authData.password.email;
       } else {
         console.log("Client unauthenticated.");
+        $rootScope.activeUser = null;
+
       }
     });
   };
+  // this.isAuthorizeUser = function() {
+  //   // $rootScope.activeUser ===
+  // }
 })
 .factory('Question', function($http, ATN) {
   return {
@@ -82,6 +96,13 @@ angular.module('heimdall', ['ui.router'])
     },
     addQuestion: function(newQuestion) {
       return $http.post(ATN.API_URL + "/questions", newQuestion);
+    },
+    editQuestion: function(slug, updatedQuestion) {
+      console.log(slug,updatedQuestion)
+      return $http.patch(ATN.API_URL + "/questions/" + slug, updatedQuestion);
+    },
+    deleteQuestion: function(slug) {
+      return $http.delete(ATN.API_URL + "/questions/" + slug);
     }
   };
 })
@@ -134,8 +155,26 @@ angular.module('heimdall', ['ui.router'])
     $scope.answer = {};
   };
 
+  $scope.submitEditQuestion = function() {
+    Question.editQuestion($state.params.slug, $scope.answer)
+      .success(function(data){
+        $state.go("home");
+        console.log(data);
+      }).catch(function (err) {
+        console.error(err);
+      });
+  };
+  $scope.deleteQuestion = function() {
+    Question.deleteQuestion($state.params.slug)
+      .success(function(data){
+        $state.go("home")
+        console.log(data);
+      }).catch(function (err) {
+        console.error(err);
+      });
+  };
 })
-.controller('MainCtrl', function($scope, Question, AuthService){
+.controller('MainCtrl', function($scope, Question, AuthService,$rootScope){
   AuthService.onAuth();
   Question.getAll().success(function(data) {
     $scope.questions = data;
@@ -144,6 +183,7 @@ angular.module('heimdall', ['ui.router'])
   });
   $scope.logOut = function(){
     AuthService.logOut();
+    $rootScope.activeUser = null;
   };
 })
 .controller("LoginCtrl", function($scope, AuthService){
@@ -152,8 +192,5 @@ angular.module('heimdall', ['ui.router'])
   };
   $scope.createUser = function() {
     AuthService.createUser($scope.newUser.email, $scope.newUser.password);
-  };
-  $scope.logOut = function(){
-    AuthService.logOut();
   };
 });

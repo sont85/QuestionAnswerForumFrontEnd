@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="shortcut icon" href="/favicon.ico">
   </head>
-  <body>
+  <body ng-controller="MainCtrl">
 
     <div class='container'>
       <nav class="navbar navbar-inverse">
@@ -23,6 +23,7 @@
               <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" ui-sref="home">Ask the Nerds</a>
+            <button ng-click="logOut()" ng-if="activeUser" class="btn btn-default">Log Out</button>
           </div>
 
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

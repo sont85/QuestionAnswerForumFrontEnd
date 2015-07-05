@@ -10,31 +10,32 @@
     <div>{{question.body}}</div>
   </div>
 </div>
+<div ng-show="question.email === activeUser">
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#editQuestionForm" aria-expanded="false" aria-controls="collapseExample">
+    Edit Question
+  </button>
+  <button class="btn btn-primary" type="button" ng-click="deleteQuestion()">Delete Button</button>
+</div>
 
-<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+<div class="collapse" id="editQuestionForm">
+  <div class="well">
+    <form class="form-horizontal" accept-charset="UTF-8" method="post" ng-submit="submitEditQuestion()">
+      <input-form></input-form>
+    </form>
+  </div>
+</div>
+
+
+<br>
+
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#addAnswerForm" aria-expanded="false" aria-controls="collapseExample">
   Write Answer
 </button>
 
-<div class="collapse" id="collapseExample">
+<div class="collapse" id="addAnswerForm">
   <div class="well">
     <form class="form-horizontal" accept-charset="UTF-8" method="post" ng-submit="addAnswer()">
-      <div class="form-group">
-        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-        <div class="col-sm-10">
-          <input type="email" ng-model="answer.email" value="" class="form-control" id="inputEmail" placeholder="Email" required>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="inputQuestion" class="col-sm-2 control-label">Answer</label>
-        <div class="col-sm-10">
-          <textarea class="form-control" ng-model="answer.body" id="inputQuestion" placeholder="Your answer here" required></textarea>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-10 col-sm-offset-2">
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-      </div>
+      <input-form></input-form>
     </form>
   </div>
 </div>
