@@ -7,12 +7,12 @@ angular.module('heimdall', ['ui.router'])
   $urlRouterProvider.otherwise("/");
   $stateProvider
     .state('home', {
-      url: "/",
+      url: "/home",
       templateUrl: "list.html",
       controller: 'MainCtrl'
     })
     .state("login", {
-      url:"/login",
+      url:"/",
       templateUrl: "login.html",
       controller: "LoginCtrl"
     })
