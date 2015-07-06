@@ -74,10 +74,10 @@ angular.module('heimdall', ['ui.router'])
       if (authData) {
         console.log("Authenticated with uid:", authData.uid);
         console.log(authData.password.email);
-        $Scope.activeUser = authData.password.email;
+        $scope.activeUser = authData.password.email;
       } else {
         console.log("Client unauthenticated.");
-        $Scope.activeUser = null;
+        $scope.activeUser = null;
 
       }
     });
@@ -127,7 +127,7 @@ angular.module('heimdall', ['ui.router'])
 })
 .controller('NewQuestionCtrl', function($scope, Question, $state, $rootScope){
   $scope.askQuestion = function() {
-    $scope.question.email = $Scope.activeUser;
+    $scope.question.email = $scope.activeUser;
     Question.addQuestion($scope.question)
       .success(function(data) {
         $scope.question = {};
@@ -152,13 +152,13 @@ angular.module('heimdall', ['ui.router'])
     });
 
   $scope.addAnswer = function() {
-    $scope.answer.email = $Scope.activeUser;
+    $scope.answer.email = $scope.activeUser;
     Answer.addAnswer($scope.slug, $scope.answer);
     $scope.answer = {};
   };
 
   $scope.submitEditQuestion = function() {
-    $scope.answer.email = $Scope.activeUser;
+    $scope.answer.email = $scope.activeUser;
     Question.editQuestion($state.params.slug, $scope.answer)
       .success(function(data){
         $state.go("home");
@@ -186,7 +186,7 @@ angular.module('heimdall', ['ui.router'])
   });
   $scope.logOut = function(){
     AuthService.logOut();
-    $Scope.activeUser = null;
+    $scope.activeUser = null;
   };
 })
 .controller("LoginCtrl", function($scope, AuthService){
