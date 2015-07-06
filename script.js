@@ -57,7 +57,7 @@ angular.module('heimdall', ['ui.router'])
     }, function(error, userData) {
       if(error){
         console.error("Error logging in:", error);
-        $rootScope.activeUser = userEmail;
+        $Scope.activeUser = userEmail;
       } else {
         console.log(userData);
         $state.go("home");
@@ -74,10 +74,10 @@ angular.module('heimdall', ['ui.router'])
       if (authData) {
         console.log("Authenticated with uid:", authData.uid);
         console.log(authData.password.email);
-        $rootScope.activeUser = authData.password.email;
+        $Scope.activeUser = authData.password.email;
       } else {
         console.log("Client unauthenticated.");
-        $rootScope.activeUser = null;
+        $Scope.activeUser = null;
 
       }
     });
@@ -127,7 +127,7 @@ angular.module('heimdall', ['ui.router'])
 })
 .controller('NewQuestionCtrl', function($scope, Question, $state, $rootScope){
   $scope.askQuestion = function() {
-    $scope.question.email = $rootScope.activeUser;
+    $scope.question.email = $Scope.activeUser;
     Question.addQuestion($scope.question)
       .success(function(data) {
         $scope.question = {};
@@ -152,13 +152,13 @@ angular.module('heimdall', ['ui.router'])
     });
 
   $scope.addAnswer = function() {
-    $scope.answer.email = $rootScope.activeUser;
+    $scope.answer.email = $Scope.activeUser;
     Answer.addAnswer($scope.slug, $scope.answer);
     $scope.answer = {};
   };
 
   $scope.submitEditQuestion = function() {
-    $scope.answer.email = $rootScope.activeUser;
+    $scope.answer.email = $Scope.activeUser;
     Question.editQuestion($state.params.slug, $scope.answer)
       .success(function(data){
         $state.go("home");
@@ -186,7 +186,7 @@ angular.module('heimdall', ['ui.router'])
   });
   $scope.logOut = function(){
     AuthService.logOut();
-    $rootScope.activeUser = null;
+    $Scope.activeUser = null;
   };
 })
 .controller("LoginCtrl", function($scope, AuthService){
