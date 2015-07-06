@@ -36,7 +36,7 @@ angular.module('heimdall', ['ui.router'])
     templateUrl: "form.html"
   };
 })
-.service("AuthService", function($state, $rootScope){
+.service("AuthService", function($state, $scope){
   var ref = new Firebase("https://answer.firebaseio.com/");
   this.createUser = function(newUserEmail, newUserPassword) {
     ref.createUser({
@@ -57,7 +57,7 @@ angular.module('heimdall', ['ui.router'])
     }, function(error, userData) {
       if(error){
         console.error("Error logging in:", error);
-        $Scope.activeUser = userEmail;
+        $scope.activeUser = userEmail;
       } else {
         console.log(userData);
         $state.go("home");
@@ -98,7 +98,6 @@ angular.module('heimdall', ['ui.router'])
       return $http.post(ATN.API_URL + "/questions", newQuestion);
     },
     editQuestion: function(slug, updatedQuestion) {
-      console.log(slug,updatedQuestion)
       return $http.patch(ATN.API_URL + "/questions/" + slug, updatedQuestion);
     },
     deleteQuestion: function(slug) {
@@ -125,7 +124,7 @@ angular.module('heimdall', ['ui.router'])
     return moment(input).utc().fromNow();
   };
 })
-.controller('NewQuestionCtrl', function($scope, Question, $state, $rootScope){
+.controller('NewQuestionCtrl', function($scope, Question, $state){
   $scope.askQuestion = function() {
     $scope.question.email = $scope.activeUser;
     Question.addQuestion($scope.question)
@@ -138,7 +137,7 @@ angular.module('heimdall', ['ui.router'])
       });
   };
 })
-.controller('QuestionCtrl', function($scope,$rootScope, Question, Answer, $state, AuthService){
+.controller('QuestionCtrl', function($scope, Question, Answer, $state, AuthService){
   $scope.slug = $state.params.slug;
 
   $scope.answers = Answer.getAll($scope.slug);
@@ -177,7 +176,7 @@ angular.module('heimdall', ['ui.router'])
       });
   };
 })
-.controller('MainCtrl', function($scope, Question, AuthService,$rootScope){
+.controller('MainCtrl', function($scope, Question, AuthService){
   AuthService.onAuth();
   Question.getAll().success(function(data) {
     $scope.questions = data;
